@@ -1,0 +1,172 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.redmond.kettle",
+  "version": "1.0.0",
+  "compatibility": ">=12.0.1",
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "sdk": 3,
+  "brandColor": "#8E1B34",
+  "name": {
+    "en": "REDMOND SkyKettle",
+    "ru": "REDMOND SkyKettle"
+  },
+  "description": {
+    "en": "Local Zigbee control for the REDMOND SkyKettle RK-G211S through an ESP32-C5 bridge.",
+    "ru": "Локальное Zigbee-управление чайником REDMOND SkyKettle RK-G211S через мост ESP32-C5."
+  },
+  "category": [
+    "appliances"
+  ],
+  "tags": {
+    "en": [
+      "Redmond",
+      "SkyKettle",
+      "kettle",
+      "Zigbee"
+    ],
+    "ru": [
+      "Redmond",
+      "SkyKettle",
+      "чайник",
+      "Zigbee"
+    ]
+  },
+  "images": {
+    "small": "/assets/images/small.jpg",
+    "large": "/assets/images/large.jpg"
+  },
+  "permissions": [],
+  "author": {
+    "name": "Homey Community"
+  },
+  "esm": true,
+  "drivers": [
+    {
+      "name": {
+        "en": "SkyKettle RK-G211S",
+        "ru": "SkyKettle RK-G211S"
+      },
+      "class": "kettle",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "zigbee"
+      ],
+      "capabilities": [
+        "onoff",
+        "measure_temperature",
+        "target_temperature",
+        "kettle_program_status",
+        "button.temperature_40",
+        "button.temperature_55",
+        "button.temperature_70",
+        "button.temperature_85"
+      ],
+      "capabilitiesOptions": {
+        "target_temperature": {
+          "min": 40,
+          "max": 100,
+          "step": 1
+        },
+        "button.temperature_40": {
+          "title": {
+            "en": "40 °C",
+            "ru": "40 °C"
+          }
+        },
+        "button.temperature_55": {
+          "title": {
+            "en": "55 °C",
+            "ru": "55 °C"
+          }
+        },
+        "button.temperature_70": {
+          "title": {
+            "en": "70 °C",
+            "ru": "70 °C"
+          }
+        },
+        "button.temperature_85": {
+          "title": {
+            "en": "85 °C",
+            "ru": "85 °C"
+          }
+        }
+      },
+      "energy": {
+        "approximation": {
+          "usageOn": 2200,
+          "usageOff": 0.8
+        }
+      },
+      "settings": [
+        {
+          "id": "keep_warm_duration",
+          "type": "number",
+          "label": {
+            "en": "Temperature hold duration",
+            "ru": "Время поддержания температуры"
+          },
+          "hint": {
+            "en": "Starts after the target temperature is reached, then heating is stopped.",
+            "ru": "Отсчёт начинается после достижения заданной температуры, затем нагрев выключается."
+          },
+          "value": 10,
+          "min": 1,
+          "max": 15,
+          "step": 1,
+          "units": {
+            "en": "min",
+            "ru": "мин"
+          }
+        }
+      ],
+      "images": {
+        "small": "/drivers/kettle_zigbee/assets/images/small.jpg",
+        "large": "/drivers/kettle_zigbee/assets/images/large.jpg"
+      },
+      "zigbee": {
+        "manufacturerName": "EdS Home",
+        "productId": [
+          "RK-G211S-ZB"
+        ],
+        "endpoints": {
+          "1": {
+            "clusters": [
+              0,
+              3,
+              6,
+              513,
+              1026
+            ],
+            "bindings": [
+              6,
+              513,
+              1026
+            ]
+          }
+        }
+      },
+      "id": "kettle_zigbee"
+    }
+  ],
+  "capabilities": {
+    "kettle_program_status": {
+      "type": "string",
+      "title": {
+        "en": "Program temperature",
+        "ru": "Температура программы"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/icon.svg",
+      "preventInsights": true,
+      "preventTag": true
+    }
+  }
+}

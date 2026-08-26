@@ -1,0 +1,25 @@
+{
+  "name": "com.redmond.kettle",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Homey support for the REDMOND SkyKettle RK-G211S",
+  "main": "app.js",
+  "scripts": {
+    "build": "tsc",
+    "homey:build": "homey app build",
+    "validate": "homey app validate",
+    "test": "npm run build && npm run validate"
+  },
+  "devDependencies": {
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
+    "@types/node": "^20.17.0",
+    "homey": "^4.4.2",
+    "npm": "^11.5.0",
+    "typescript": "^5.9.0"
+  },
+  "dependencies": {
+    "homey-zigbeedriver": "^2.2.17",
+    "zigbee-clusters": "^3.6.1"
+  }
+}

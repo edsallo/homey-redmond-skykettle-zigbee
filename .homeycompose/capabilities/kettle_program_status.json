@@ -1,0 +1,13 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Program temperature",
+    "ru": "Температура программы"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/icon.svg",
+  "preventInsights": true,
+  "preventTag": true
+}

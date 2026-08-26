@@ -1,0 +1,25 @@
+{
+  "id": "com.redmond.kettle",
+  "version": "1.0.0",
+  "compatibility": ">=12.0.1",
+  "runtime": "nodejs",
+  "platforms": ["local"],
+  "sdk": 3,
+  "brandColor": "#8E1B34",
+  "name": { "en": "REDMOND SkyKettle", "ru": "REDMOND SkyKettle" },
+  "description": {
+    "en": "Local Zigbee control for the REDMOND SkyKettle RK-G211S through an ESP32-C5 bridge.",
+    "ru": "Локальное Zigbee-управление чайником REDMOND SkyKettle RK-G211S через мост ESP32-C5."
+  },
+  "category": ["appliances"],
+  "tags": {
+    "en": ["Redmond", "SkyKettle", "kettle", "Zigbee"],
+    "ru": ["Redmond", "SkyKettle", "чайник", "Zigbee"]
+  },
+  "images": {
+    "small": "/assets/images/small.jpg",
+    "large": "/assets/images/large.jpg"
+  },
+  "permissions": [],
+  "author": { "name": "Homey Community" }
+}

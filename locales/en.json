@@ -1,0 +1,28 @@
+{
+  "pair": {
+    "name": "REDMOND SkyKettle RK-G211S",
+    "title": "Prepare the kettle",
+    "subtitle": "Complete four steps before searching",
+    "step1": "Place the kettle on its powered base.",
+    "step2": "Hold the On/Off button for about 5 seconds.",
+    "step3": "Release the button after three short beeps.",
+    "step4": "Immediately tap Continue and select “RK-G211S”.",
+    "note": "Pairing mode remains active for 30 seconds."
+  },
+  "errors": {
+    "not_found": "Kettle not found. Place it on its powered base and try again.",
+    "auth_failed": "The kettle rejected Bluetooth authorization.",
+    "timeout": "The kettle did not answer in time.",
+    "no_water": "The kettle reported an error. Check that it contains water and is on its base."
+  },
+  "flow_tags": {
+    "current_temperature": "Current temperature",
+    "target_temperature": "Target temperature"
+  },
+  "program": {
+    "inactive": "—",
+    "boiling": "100 °C",
+    "heating": "__temperature__ °C",
+    "holding": "__temperature__ °C"
+  }
+}
