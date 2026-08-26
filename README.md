@@ -8,7 +8,7 @@ RK-G211S через Zigbee-мост ESP32-C5.
 
 ## Загрузка и установка
 
-- **[Скачать приложение Homey v1.0.0](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.0/com.redmond.kettle-homey-v1.0.0.zip)**
+- **[Скачать приложение Homey v1.0.1](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.1/com.redmond.kettle-homey-v1.0.1.zip)**
 - **[Подробная инструкция по установке](INSTALL-HOMEY.md)**
 
 ## Необходимая прошивка ESP32-C5
@@ -27,6 +27,7 @@ RK-G211S через Zigbee-мост ESP32-C5.
 - поддержание температуры с настраиваемым временем от 1 до 15 минут;
 - автоматическое восстановление связи после возврата чайника на базу;
 - локальная работа без облака REDMOND.
+- Flow-триггер «Чайник закипел и выключился» с тегом температуры воды.
 
 ## Разработка
 

@@ -1,0 +1,22 @@
+{
+  "triggers": [
+    {
+      "id": "kettle_boiled",
+      "title": {
+        "en": "Boiling has finished",
+        "ru": "Чайник закипел и выключился"
+      },
+      "tokens": [
+        {
+          "name": "temperature",
+          "type": "number",
+          "title": {
+            "en": "Water temperature",
+            "ru": "Температура воды"
+          },
+          "example": 100
+        }
+      ]
+    }
+  ]
+}

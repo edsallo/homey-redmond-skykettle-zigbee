@@ -14,5 +14,6 @@ Features:
 - arbitrary target temperature from 40 to 100 °C;
 - presets for 40, 55, 70 and 85 °C;
 - configurable temperature holding time;
+- Flow trigger when boiling has finished, with the final water temperature;
 - automatic reconnection after the kettle is returned to its base;
 - autonomous temperature-dependent kettle lighting.

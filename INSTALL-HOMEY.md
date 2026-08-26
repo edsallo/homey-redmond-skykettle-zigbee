@@ -15,7 +15,7 @@ RK-G211S через Zigbee-мост ESP32-C5. Прошивка ESP32-C5 и пр�
 - Homey и компьютер в одной локальной сети;
 - прошитая ESP32-C5;
 - приложение
-  [`com.redmond.kettle-homey-v1.0.0.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.0/com.redmond.kettle-homey-v1.0.0.zip).
+  [`com.redmond.kettle-homey-v1.0.1.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.1/com.redmond.kettle-homey-v1.0.1.zip).
 
 ## Часть 1. Подготовка macOS
 
@@ -38,9 +38,9 @@ npm --version
 ### 2. Скачайте приложение
 
 1. Скачайте
-   [`com.redmond.kettle-homey-v1.0.0.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.0/com.redmond.kettle-homey-v1.0.0.zip).
+   [`com.redmond.kettle-homey-v1.0.1.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.1/com.redmond.kettle-homey-v1.0.1.zip).
 2. Откройте файл в Finder. macOS распакует его в папку
-   `com.redmond.kettle-homey-v1.0.0`.
+   `com.redmond.kettle-homey-v1.0.1`.
 3. Не перемещайте и не удаляйте файлы внутри этой папки.
 
 После этого переходите к разделу **«Установка Homey CLI»**.
@@ -66,9 +66,9 @@ npm --version
 ### 2. Скачайте приложение
 
 1. Скачайте
-   [`com.redmond.kettle-homey-v1.0.0.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.0/com.redmond.kettle-homey-v1.0.0.zip).
+   [`com.redmond.kettle-homey-v1.0.1.zip`](https://github.com/edsallo/homey-redmond-skykettle-zigbee/releases/download/v1.0.1/com.redmond.kettle-homey-v1.0.1.zip).
 2. В Проводнике нажмите на архив правой кнопкой мыши и выберите **Извлечь всё**.
-3. Откройте полученную папку `com.redmond.kettle-homey-v1.0.0`.
+3. Откройте полученную папку `com.redmond.kettle-homey-v1.0.1`.
 4. В ней должны находиться файлы `app.json`, `package.json` и папка `drivers`.
 
 ## Часть 3. Установка Homey CLI
@@ -119,19 +119,19 @@ homey select
 ### 1. Откройте папку приложения в терминале
 
 В macOS введите `cd`, поставьте пробел, перетащите папку
-`com.redmond.kettle-homey-v1.0.0` из Finder в окно Terminal и нажмите Enter.
+`com.redmond.kettle-homey-v1.0.1` из Finder в окно Terminal и нажмите Enter.
 
 Получится примерно такая команда:
 
 ```bash
-cd ~/Downloads/com.redmond.kettle-homey-v1.0.0
+cd ~/Downloads/com.redmond.kettle-homey-v1.0.1
 ```
 
 В Windows откройте распакованную папку в Проводнике, щёлкните адресную строку,
 скопируйте путь и выполните в PowerShell:
 
 ```powershell
-cd "$HOME\Downloads\com.redmond.kettle-homey-v1.0.0"
+cd "$HOME\Downloads\com.redmond.kettle-homey-v1.0.1"
 ```
 
 Путь может отличаться. После перехода проверьте содержимое:

@@ -10,6 +10,11 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
   private onOff: any;
   private currentTemperatureToken?: Homey.FlowToken;
   private targetTemperatureToken?: Homey.FlowToken;
+  private lastReportedPower?: boolean;
+  private lastTemperature = 0;
+  private boilingCycleActive = false;
+  private boilingMaxTemperature = 0;
+  private boilEvaluationTimer?: NodeJS.Timeout;
 
   async onNodeInit({ zclNode }: { zclNode: any }): Promise<void> {
     this.thermostat = zclNode.endpoints[1].clusters.thermostat;
@@ -25,16 +30,22 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
       setParser: (value: boolean) => {
         // A direct On command means normal boiling, not a temperature program.
         this.finishTemperatureProgram();
+        if (value) this.startBoilingCycle();
+        else this.cancelBoilingCycle();
         void this.setProgramStatus(value ? 'boiling' : 'inactive');
         return {};
       },
       reportParser: (value: boolean) => {
+        const wasOn = this.lastReportedPower;
+        this.lastReportedPower = value;
         // The ESP intentionally reports a brief OFF while changing temperature
         // (OFF → SetMode → ON). Do not treat that transition as cancellation.
         if (!value && Date.now() >= this.temperatureTransitionUntil) {
+          if (wasOn && this.boilingCycleActive) this.evaluateCompletedBoil();
           this.finishTemperatureProgram();
           void this.setProgramStatus('inactive');
         } else if (value && !this.temperatureProgram) {
+          if (!this.boilingCycleActive) this.startBoilingCycle();
           void this.setProgramStatus('boiling');
         }
         if (value) this.temperatureTransitionUntil = 0;
@@ -93,6 +104,7 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
 
   async onDeleted(): Promise<void> {
     if (this.keepWarmTimer) this.homey.clearTimeout(this.keepWarmTimer);
+    if (this.boilEvaluationTimer) this.homey.clearTimeout(this.boilEvaluationTimer);
     await Promise.all([
       this.currentTemperatureToken?.unregister(),
       this.targetTemperatureToken?.unregister(),
@@ -100,6 +112,7 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
   }
 
   private startTemperatureProgram(target: number): void {
+    this.cancelBoilingCycle();
     if (this.keepWarmTimer) this.homey.clearTimeout(this.keepWarmTimer);
     this.keepWarmTimer = undefined;
     this.temperatureProgram = { target };
@@ -109,6 +122,13 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
   }
 
   private async onTemperature(temperature: number): Promise<void> {
+    this.lastTemperature = temperature;
+    if (this.boilingCycleActive) {
+      this.boilingMaxTemperature = Math.max(this.boilingMaxTemperature, temperature);
+      if (this.lastReportedPower === false && this.boilingMaxTemperature >= 95) {
+        void this.triggerBoiledFlow();
+      }
+    }
     await this.currentTemperatureToken?.setValue(temperature);
     const program = this.temperatureProgram;
     if (program && !program.reachedAt && temperature >= program.target) {
@@ -139,6 +159,46 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
     this.keepWarmTimer = undefined;
     this.temperatureProgram = undefined;
     this.temperatureTransitionUntil = 0;
+  }
+
+  private startBoilingCycle(): void {
+    if (this.boilEvaluationTimer) this.homey.clearTimeout(this.boilEvaluationTimer);
+    this.boilEvaluationTimer = undefined;
+    this.boilingCycleActive = true;
+    this.boilingMaxTemperature = this.lastTemperature;
+  }
+
+  private cancelBoilingCycle(): void {
+    if (this.boilEvaluationTimer) this.homey.clearTimeout(this.boilEvaluationTimer);
+    this.boilEvaluationTimer = undefined;
+    this.boilingCycleActive = false;
+    this.boilingMaxTemperature = 0;
+  }
+
+  private evaluateCompletedBoil(): void {
+    if (this.boilingMaxTemperature >= 95) {
+      void this.triggerBoiledFlow();
+      return;
+    }
+    if (this.boilEvaluationTimer) this.homey.clearTimeout(this.boilEvaluationTimer);
+    this.boilEvaluationTimer = this.homey.setTimeout(() => {
+      this.boilEvaluationTimer = undefined;
+      if (this.boilingCycleActive && this.lastReportedPower === false
+          && this.boilingMaxTemperature >= 95) {
+        void this.triggerBoiledFlow();
+      } else {
+        this.cancelBoilingCycle();
+      }
+    }, 5_000);
+  }
+
+  private async triggerBoiledFlow(): Promise<void> {
+    if (!this.boilingCycleActive) return;
+    const temperature = this.boilingMaxTemperature;
+    this.cancelBoilingCycle();
+    await this.homey.flow.getDeviceTriggerCard('kettle_boiled')
+      .trigger(this, { temperature })
+      .catch(this.error);
   }
 
   private async setProgramStatus(
