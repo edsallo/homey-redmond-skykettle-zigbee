@@ -127,6 +127,12 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
       this.boilingMaxTemperature = Math.max(this.boilingMaxTemperature, temperature);
       if (this.lastReportedPower === false && this.boilingMaxTemperature >= 95) {
         void this.triggerBoiledFlow();
+      } else if (this.boilingMaxTemperature >= 99) {
+        // RK-G211S keeps reporting is_on=1 after its own boil auto-stop.
+        // Reaching the boiling point during an ordinary boil is therefore the
+        // reliable completion signal. Allow a short period for the kettle's
+        // mechanical/firmware auto-stop before firing the Flow trigger.
+        this.scheduleBoilingPointCompletion();
       }
     }
     await this.currentTemperatureToken?.setValue(temperature);
@@ -190,6 +196,16 @@ export default class RedmondZigbeeDevice extends ZigBeeDevice {
         this.cancelBoilingCycle();
       }
     }, 5_000);
+  }
+
+  private scheduleBoilingPointCompletion(): void {
+    if (this.boilEvaluationTimer) return;
+    this.boilEvaluationTimer = this.homey.setTimeout(() => {
+      this.boilEvaluationTimer = undefined;
+      if (this.boilingCycleActive && this.boilingMaxTemperature >= 99) {
+        void this.triggerBoiledFlow();
+      }
+    }, 4_000);
   }
 
   private async triggerBoiledFlow(): Promise<void> {
